@@ -9,10 +9,13 @@ package com.fdxsoft.inventory.services;
 
 import org.springframework.http.ResponseEntity;
 
+import com.fdxsoft.inventory.models.CategoryModel;
 import com.fdxsoft.inventory.response.CategoryResponseRest;
 
 public interface ICategoryService {
 	public ResponseEntity<CategoryResponseRest> search();
 	
 	public ResponseEntity<CategoryResponseRest> searchById(Long id);
+	
+	public ResponseEntity<CategoryResponseRest> save(CategoryModel category);
 }
