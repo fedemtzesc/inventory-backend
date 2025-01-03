@@ -1,5 +1,10 @@
 package com.fdxsoft.inventory.models;
 
+/**
+ * 01. 	Esta es la clase principal que mapea con su correspondiente 
+ * 		tabla dentro de la BD
+ */
+
 import java.io.Serializable;
 
 import org.hibernate.annotations.GeneratorType;
