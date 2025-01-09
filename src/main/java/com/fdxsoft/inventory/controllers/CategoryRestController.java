@@ -15,6 +15,7 @@ package com.fdxsoft.inventory.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +28,6 @@ import com.fdxsoft.inventory.models.CategoryModel;
 import com.fdxsoft.inventory.response.CategoryResponseRest;
 import com.fdxsoft.inventory.services.ICategoryService;
 
-import jakarta.websocket.server.PathParam;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -76,6 +76,17 @@ public class CategoryRestController {
 	@PutMapping("/categories/{id}")
 	public ResponseEntity<CategoryResponseRest> updateCategory(@RequestBody CategoryModel categoryModel, @PathVariable Long id) {
 		ResponseEntity<CategoryResponseRest> response = categoryService.update(categoryModel, id);
+		return response;
+	}
+	
+	/**
+	 * Delte a category
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("/categories/{id}")
+	public ResponseEntity<CategoryResponseRest> deleteCategory(@PathVariable Long id) {
+		ResponseEntity<CategoryResponseRest> response = categoryService.deleteById(id);
 		return response;
 	}
 	
