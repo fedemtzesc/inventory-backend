@@ -94,32 +94,79 @@ public class CategoryServiceImpl implements ICategoryService {
 	@Transactional
 	public ResponseEntity<CategoryResponseRest> save(CategoryModel categoryToSave) {
 		// Defino una instancia de la clase que coontendra los metadatos y los datos de
-				// la BD
-				CategoryResponseRest response = new CategoryResponseRest();
-				List<CategoryModel> list = new ArrayList<>();
+		// la BD
+		CategoryResponseRest response = new CategoryResponseRest();
+		List<CategoryModel> list = new ArrayList<>();
 
-				try {
-					CategoryModel categorySaved = categoryDao.save(categoryToSave);
-					if(categorySaved!=null) {
-						list.add(categorySaved);
-						response.getCategoryResponse().setCategory(list);
-						response.setMetadata("Respuesta ok", "00", "Categoria guardada con exito.");
-					}else {
-						response.setMetadata("Respuesta fail", "-2", "No fue posible guardar la categoria.");
-						return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
-					}
-				} catch (Exception e) {
-					// En el objeto bi-funcional solamente definire los metadatos de acuerdo al
-					// resultado NO EXITOSO
-					response.setMetadata("Respuesta fail", "-1", "Error al guardar nueva categoria: " + e.getMessage().toUpperCase());
-					// Y devuelvo el objeto bi-funcional encapsulado en un objeto ResponseEntity,
-					// sin datos, pero con informacion del error que paso
-					return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		try {
+			CategoryModel categorySaved = categoryDao.save(categoryToSave);
+			if (categorySaved != null) {
+				list.add(categorySaved);
+				response.getCategoryResponse().setCategory(list);
+				response.setMetadata("Respuesta ok", "00", "Categoria guardada con exito.");
+			} else {
+				response.setMetadata("Respuesta fail", "-2", "No fue posible guardar la categoria.");
+				return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			// En el objeto bi-funcional solamente definire los metadatos de acuerdo al
+			// resultado NO EXITOSO
+			response.setMetadata("Respuesta fail", "-1",
+					"Error al guardar nueva categoria: " + e.getMessage().toUpperCase());
+			// Y devuelvo el objeto bi-funcional encapsulado en un objeto ResponseEntity,
+			// sin datos, pero con informacion del error que paso
+			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		// Si no hubo errores, devolvere el objeto bi-funcional encapsulado en el objeto
+		// ResponseEntity
+		// como respuesta a la consulta REST
+		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<CategoryResponseRest> update(CategoryModel category, Long id) {
+		CategoryResponseRest response = new CategoryResponseRest();
+		List<CategoryModel> list = new ArrayList<>();
+
+		try {
+			Optional<CategoryModel> categoryModel = categoryDao.findById(id);
+
+			if (categoryModel.isPresent()) {
+				// Se procede a actualizar el registro
+				categoryModel.get().setName(category.getName());
+				categoryModel.get().setDescription(category.getDescription());
+
+				CategoryModel categoryUpdated = categoryDao.save(categoryModel.get());
+
+				if (categoryUpdated != null) {
+					list.add(categoryUpdated);
+					response.getCategoryResponse().setCategory(list);
+					response.setMetadata("Respuesta ok", "00", "Categoria actualizada");
+				} else {
+					response.setMetadata("Respuesta fail", "-3", "No fue posible actualizar la categoria.");
+					return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
 				}
-				// Si no hubo errores, devolvere el objeto bi-funcional encapsulado en el objeto
-				// ResponseEntity
-				// como respuesta a la consulta REST
-				return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
+
+			} else {
+				// Se procede a avisar al cliente que no se encontro la categoria
+				response.setMetadata("Respuesta fail", "-2", "Categoria no encontrada.");
+				return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.NOT_FOUND);
+			}
+
+		} catch (Exception e) {
+			// En el objeto bi-funcional solamente definire los metadatos de acuerdo al
+			// resultado NO EXITOSO
+			response.setMetadata("Respuesta fail", "-1",
+					"Error al actualizar categoria: " + e.getMessage().toUpperCase());
+			// Y devuelvo el objeto bi-funcional encapsulado en un objeto ResponseEntity,
+			// sin datos, pero con informacion del error que paso
+			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		// Si no hubo errores, devolvere el objeto bi-funcional encapsulado en el objeto
+		// ResponseEntity
+		// como respuesta a la consulta REST
+		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
 	}
 
 }
