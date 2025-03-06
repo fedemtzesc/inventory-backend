@@ -1,13 +1,11 @@
 package com.fdxsoft.inventory.models;
 
 /**
- * 01. 	Esta es la clase principal que mapea con su correspondiente 
+ * 01. 	Esta es la clase principal que se mapea con su correspondiente 
  * 		tabla dentro de la BD
  */
 
 import java.io.Serializable;
-
-import org.hibernate.annotations.GeneratorType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

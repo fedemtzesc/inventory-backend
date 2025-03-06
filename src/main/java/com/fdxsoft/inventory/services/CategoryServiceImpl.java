@@ -52,7 +52,7 @@ public class CategoryServiceImpl implements ICategoryService {
 			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// Si no hubo errores, devolvere el objeto bi-funcional encapsulado en el objeto
-		// ResponseEntity
+		// ResponseEntity 
 		// como respuesta a la consulta REST
 		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
 	}
@@ -85,8 +85,7 @@ public class CategoryServiceImpl implements ICategoryService {
 			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		// Si no hubo errores, devolvere el objeto bi-funcional encapsulado en el objeto
-		// ResponseEntity
-		// como respuesta a la consulta REST
+		// ResponseEntity como respuesta a la consulta REST
 		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
 	}
 
